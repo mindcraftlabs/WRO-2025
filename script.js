@@ -1,50 +1,82 @@
-let timer;
-let time = 0;
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("calculatorForm");
+    const totalPointsDisplay = document.getElementById("totalPoints");
+    const pointsOverTime = document.getElementById("pointsOverTime");
+    const remarkText = document.getElementById("remarkText");
+    const timeDisplay = document.getElementById("time");
+    let timer;
+    let seconds = 0;
 
-function startChrono() {
-    stopChrono(); // Stop any existing timer
-    timer = setInterval(updateChrono, 1000);
-}
-
-function stopChrono() {
-    clearInterval(timer);
-}
-
-function resetChrono() {
-    stopChrono();
-    time = 0;
-    document.getElementById('time').textContent = formatTime(time);
-    document.getElementById('pointsOverTime').textContent = '0 points in 00:00';
-}
-
-function updateChrono() {
-    time++;
-    document.getElementById('time').textContent = formatTime(time);
-    updatePointsOverTime(); // Update points over time display
-    if (time >= 90) {
-        stopChrono();
-        document.getElementById('alarmSound').play(); // Play the alarm sound
+    function calculatePoints() {
+        let total = 0;
+        total += parseInt(document.getElementById("fuelComplete").value) * 10;
+        total += parseInt(document.getElementById("fuelPartial").value) * 5;
+        total += parseInt(document.getElementById("rocketOrbit").value) * 15;
+        total += parseInt(document.getElementById("rocketFlight").value) * 10;
+        total += parseInt(document.getElementById("satelliteCorrect").value) * 20;
+        total += parseInt(document.getElementById("satelliteWrong").value) * 10;
+        total += parseInt(document.getElementById("spaceDebris").value) * 5;
+        total += parseInt(document.getElementById("astronautSafety").value) * 10;
+        total += parseInt(document.getElementById("barrierIntact").value) * 10;
+        
+        totalPointsDisplay.textContent = total;
+        pointsOverTime.textContent = `${total} points in ${formatTime(seconds)}`;
+        updateRemark(total);
     }
-}
 
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-}
+    function updateRemark(points) {
+        if (points >= 80) {
+            remarkText.textContent = "Excellent!";
+        } else if (points >= 50) {
+            remarkText.textContent = "Good Job!";
+        } else {
+            remarkText.textContent = "Keep Trying!";
+        }
+    }
 
+    function formatTime(sec) {
+        let minutes = Math.floor(sec / 60);
+        let seconds = sec % 60;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
 
-function resetAll() {
-    document.getElementById('calculatorForm').reset();
-    document.getElementById('totalPoints').textContent = '0';
-    document.getElementById('time').textContent = '00:00';
-    document.getElementById('pointsOverTime').textContent = '0 points in 00:00';
-    document.getElementById('remarkText').textContent = '';
-    resetChrono(); // Reset the chronometer
-}
+    function startChrono() {
+        clearInterval(timer);
+        seconds = 0;
+        timer = setInterval(() => {
+            seconds++;
+            timeDisplay.textContent = formatTime(seconds);
+            pointsOverTime.textContent = `${totalPointsDisplay.textContent} points in ${formatTime(seconds)}`;
+        }, 1000);
+    }
 
-function updatePointsOverTime() {
-    const points = document.getElementById('totalPoints').textContent;
-    const timeText = document.getElementById('time').textContent;
-    document.getElementById('pointsOverTime').textContent = `${points} points in ${timeText}`;
-}
+    function stopChrono() {
+        clearInterval(timer);
+    }
+
+    function resetAll() {
+        form.reset();
+        calculatePoints();
+        stopChrono();
+        seconds = 0;
+        timeDisplay.textContent = "00:00";
+        pointsOverTime.textContent = "0 points in 00:00";
+        remarkText.textContent = "";
+    }
+
+    function screenshot() {
+        html2canvas(document.body).then(canvas => {
+            let link = document.createElement("a");
+            link.href = canvas.toDataURL();
+            link.download = "screenshot.png";
+            link.click();
+        });
+    }
+
+    form.addEventListener("change", calculatePoints);
+    window.startChrono = startChrono;
+    window.stopChrono = stopChrono;
+    window.resetAll = resetAll;
+    window.screenshot = screenshot;
+    calculatePoints();
+});
