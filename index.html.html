@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #007BFF; /* Updated background color */
+            color: #333;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #007BFF;
+            color: white;
+            margin-top: -10px; /* Moved the header up by reducing the top margin */
+        }
+        .header img {
+            width: 150px; /* Increased size for WRO and Minecraft logos */
+            height: auto;
+            margin-top: -40px; /* Moved the left and right photos up */
+        }
+        .header img:first-child {
+            margin-left: 150px; /* Move the left photo closer to the center */
+        }
+        .header img:last-child {
+            margin-right: 150px; /* Move the right photo closer to the center */
+        }
+        .header h1 {
+            margin: 0 20px; /* Add margin to the title */
+        }
+        .content {
+            margin: 20px;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px; /* Added space between the title and the buttons */
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 0; /* Adjusted margin for vertical stacking */
+            font-size: 16px;
+            color: white;
+            background-color: #000000;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            width: 80px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .wro-photo {
+            width: 80%;
+            max-width: 300px; /* Reduced size for the middle photo */
+            height: auto;
+            margin: 0px; /* Added space between the title and the photo */
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="img/wrologo.webp" alt="WRO Logo">
+        <h1>Welcome to WRO 2025</h1>
+        <img src="img/mindcraft.png" alt="Minecraft Logo">
+    </div>
+    <div class="content">
+        <img src="img/wro2025.webp" alt="WRO 2025" class="wro-photo">
+        <div class="button-container">
+            <a href="elemantery/elemantery.html" class="button">Elementary</a>
+            <a href="junior/junior.html" class="button">Junior</a>
+            <a href="senior/senior.html" class="button">Senior</a>
+        </div>
+    </div>
+</body>
+</html>
